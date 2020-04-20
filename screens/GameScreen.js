@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Button
 } from 'react-native';
 import { GameContext } from '../controllers/GameController';
 import { useGameContext } from '../controllers/useGameContext';
@@ -15,10 +16,11 @@ const styles = StyleSheet.create({
     wordContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        flex: 0.4
+        flex: 0.6
     },
     letterContainer: {
-        padding: 10
+        paddingHorizontal: 10,
+        paddingTop: 40
     },
     letter: {
         fontSize: 50,
@@ -29,7 +31,9 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         position: 'absolute',
         right: 0,
-        paddingHorizontal: 8
+        top: 0,
+        paddingHorizontal: 8,
+        paddingTop: 8
     },
     lifeText: {
         fontSize: 24
@@ -37,14 +41,22 @@ const styles = StyleSheet.create({
 });
 
 const GameScreen = () => {
-    const { win, gameOver, stateGameWord, life, letterIntents, play } = useContext(GameContext);
+    const { win, gameOver, stateGameWord, life, letterIntents, play, newGame } = useContext(GameContext);
 
     return (
         <View style={styles.container}>
-            {win || gameOver && (
-                <View style={{ alignItems: 'center'}}>
-                    <Text style={{fontSize: 50, fontWeight: 'bold'}}>{win ? 'Has ganado !! yuju !' : 'Has perdido !! ohooh !'}</Text>
-                </View>
+            {(win || gameOver) && (
+                <>
+                    <View style={{ alignItems: 'center', paddingVertical: 8 }}>
+                        <Text style={{ fontSize: 34, fontWeight: 'bold', color: win ? 'green' : 'red' }}>{win ? 'Has ganado !! yuju !' : 'Has perdido !! ohooh !'}</Text>
+                    </View>
+                    <View style={{ paddingHorizontal: 24 }} >
+                        <Button
+                            title="Jugar de nuevo"
+                            onPress={newGame}
+                        />
+                    </View>
+                </>
             )}
             <View style={styles.wordContainer}>
                 {stateGameWord.map((letter, i) => (
@@ -55,7 +67,7 @@ const GameScreen = () => {
                     <Text style={styles.lifeText}>Vidas restantes: {life}</Text>
                 </View>
             </View>
-            <Keyboard 
+            <Keyboard
                 onPressKey={play}
                 letterIncludes={letterIntents}
             />

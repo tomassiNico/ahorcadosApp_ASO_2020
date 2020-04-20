@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
+import { gameInitState } from './GameController';
 
 const getIndexOfLetter = (word, letter) => {
     const indexs = [];
-    for(var i=0; i<word.length; i++){
-        if(word[i].toLowerCase() === letter.toLowerCase()) indexs.push(i);
+    for (var i = 0; i < word.length; i++) {
+        if (word[i].toLowerCase() === letter.toLowerCase()) indexs.push(i);
     }
     return indexs
 }
@@ -15,7 +16,7 @@ const word = 'ricardo';
 export const useGameContext = () => {
     const [gameState, setGameState] = useState({
         word: word,
-        stateGameWord: word.split('').map(letter => '_'),
+        stateGameWord: word.split('').map(() => '_'),
         life: 3,
         win: false,
         gameOver: false,
@@ -26,30 +27,21 @@ export const useGameContext = () => {
         let { word, stateGameWord, life, letterIntents, win, gameOver } = gameState;
         const indexs = getIndexOfLetter(word, letter);
         let newStateWord = [...stateGameWord];
-        if(!indexs.length){
+        if (!indexs.length) {
             life = life - 1
-            if(life === 0){
+            if (life === 0) {
                 gameOver = true
             }
-        }else{
+        } else {
             indexs.forEach((index) => {
                 newStateWord[index] = letter;
             });
         }
         letterIntents.push(letter);
 
-        if(word.toLowerCase() === newStateWord.join('').toLowerCase()){
+        if (word.toLowerCase() === newStateWord.join('').toLowerCase()) {
             win = true
         }
-
-        console.log('nuevo estado', {
-            ...gameState,
-            stateGameWord: newStateWord,
-            life,
-            letterIntents,
-            win,
-            gameOver
-        })
 
         setGameState({
             ...gameState,
@@ -59,18 +51,22 @@ export const useGameContext = () => {
             win,
             gameOver
         })
-    }
+    };
 
+    const newGame = () => {
+        setGameState(gameInitState);
+    }
 
     const [contextState, setcontextState] = useState({
         ...gameState,
         play
     });
 
-    useEffect(()=>{
+    useEffect(() => {
         setcontextState({
             ...gameState,
-            play
+            play,
+            newGame
         })
     }, [gameState])
 
