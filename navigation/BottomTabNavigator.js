@@ -21,7 +21,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Game"
         component={GameScreenWithContext}
         options={{
-          title: 'Get Started',
+          title: 'Game',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
         }}
       />

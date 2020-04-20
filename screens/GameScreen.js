@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
     View,
-    Button,
-    TouchableOpacity,
     Text,
     StyleSheet
 } from 'react-native';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-import { reducer } from '../context/GameController';
-import { GameContext } from '../context/GameController';
-import { useGameContext } from '../context/useGameContext';
+import { GameContext } from '../controllers/GameController';
+import { useGameContext } from '../controllers/useGameContext';
+import { Keyboard } from '../components/Keyboard';
 
 const styles = StyleSheet.create({
     container: {
@@ -27,18 +24,6 @@ const styles = StyleSheet.create({
         fontSize: 50,
         fontWeight: 'bold'
     },
-    keyboard: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        margin: 16,
-        alignItems: 'center'
-    },
-    buttonKeyboard: {
-        paddingHorizontal: 10
-    },
-    textKeyboard: {
-        
-    },
     lifeContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
@@ -51,78 +36,29 @@ const styles = StyleSheet.create({
     }
 });
 
-
-const genCharArray = (charA, charZ) => {
-    var a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
-    for (; i <= j; ++i) {
-        a.push(String.fromCharCode(i));
-    }
-    return a;
-}
-
-export const GameScreen = () => {
-    const context = useContext(GameContext);
-
-    const getTextStyle = (letter) => {
-        let style = {
-            fontSize: 30,
-            paddingVertical: 12
-        }
-        if (context.letterIntents.includes(letter)) {
-            style = {
-                ...style,
-                textDecorationLine: "line-through",
-                color: 'green'
-            }
-        }
-        return style
-    }
+const GameScreen = () => {
+    const { win, gameOver, stateGameWord, life, letterIntents, play } = useContext(GameContext);
 
     return (
         <View style={styles.container}>
-            {context.win && (
+            {win || gameOver && (
                 <View style={{ alignItems: 'center'}}>
-                    <Text style={{fontSize: 50, fontWeight: 'bold'}}> Has ganado !! yuju ! </Text>
-                </View>
-            )}
-            {context.gameOver && (
-                <View style={{ alignItems: 'center'}}>
-                    <Text style={{fontSize: 50, fontWeight: 'bold'}}> Has perdido !! ohooh ! </Text>
+                    <Text style={{fontSize: 50, fontWeight: 'bold'}}>{win ? 'Has ganado !! yuju !' : 'Has perdido !! ohooh !'}</Text>
                 </View>
             )}
             <View style={styles.wordContainer}>
-                {context.stateGameWord.map(letter => (
-                    <View style={styles.letterContainer}>
+                {stateGameWord.map((letter, i) => (
+                    <View key={i} style={styles.letterContainer}>
                         <Text style={styles.letter}>{letter}</Text>
                     </View>))}
                 <View style={styles.lifeContainer}>
-                    <Text style={styles.lifeText}>Vidas restantes: {context.life}</Text>
+                    <Text style={styles.lifeText}>Vidas restantes: {life}</Text>
                 </View>
             </View>
-            <View style={styles.keyboard}>
-                {genCharArray('A', 'H').map(letter => (
-                    <View style={styles.buttonKeyboard}>
-                        <TouchableOpacity onPress={() => context.play(letter)} disabled={context.letterIntents.includes(letter)}>
-                            <Text style={getTextStyle(letter)}>{letter}</Text>
-                        </TouchableOpacity>
-                    </View>))}
-            </View>
-            <View style={styles.keyboard}>
-                {genCharArray('I', 'Q').map(letter => (
-                    <View style={styles.buttonKeyboard}>
-                        <TouchableOpacity onPress={() => context.play(letter)} disabled={context.letterIntents.includes(letter)}>
-                            <Text style={getTextStyle(letter)}>{letter}</Text>
-                        </TouchableOpacity>
-                    </View>))}
-            </View>
-            <View style={styles.keyboard}>
-                {genCharArray('R', 'Z').map(letter => (
-                    <View style={styles.buttonKeyboard}>
-                        <TouchableOpacity onPress={() => context.play(letter)} disabled={context.letterIntents.includes(letter)} >
-                            <Text style={getTextStyle(letter)}>{letter}</Text>
-                        </TouchableOpacity>
-                    </View>))}
-            </View>
+            <Keyboard 
+                onPressKey={play}
+                letterIncludes={letterIntents}
+            />
         </View>
     )
 }
