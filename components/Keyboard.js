@@ -54,8 +54,8 @@ export const Keyboard = ({ onPressKey, letterIncludes }) => {
         <Fragment>
             {rowLetters.map(({from, to}, i) => (
                 <View key={i} style={styles.keyboard}>
-                    {genCharArray(from, to).map(letter => (
-                        <View style={styles.buttonKeyboard}>
+                    {genCharArray(from, to).map((letter, i) => (
+                        <View key={i} style={styles.buttonKeyboard}>
                             <TouchableOpacity onPress={() => onPressKey(letter)} disabled={letterIncludes.includes(letter)}>
                                 <Text style={getTextStyle(letter)}>{letter}</Text>
                             </TouchableOpacity>
