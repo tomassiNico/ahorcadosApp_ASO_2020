@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { gameInitState } from './GameController';
+import { createNewState } from './GameController';
 
 const getIndexOfLetter = (word, letter) => {
     const indexs = [];
@@ -53,9 +53,9 @@ export const useGameContext = () => {
         })
     };
 
-    const newGame = () => {
-        setGameState(gameInitState);
-    }
+    const newGame = async () => {
+        setGameState(await createNewState());
+    };
 
     const [contextState, setcontextState] = useState({
         ...gameState,
