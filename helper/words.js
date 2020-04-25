@@ -33,7 +33,7 @@ export default [
         word: "nacimiento"
     },
     {
-        word: "reproducción"
+        word: "reproduccion"
     },
     {
         word: "naturaleza"

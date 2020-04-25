@@ -24,14 +24,6 @@ export default function BottomTabNavigator({ navigation, route }) {
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
         }}
       />
-      <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
-        options={{
-          title: 'Resources',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
-        }}
-      />
     </BottomTab.Navigator>
   );
 }
@@ -41,8 +33,6 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case 'Game':
-      return 'Ahorcado App';
-    case 'Links':
-      return 'Links to learn more';
+      return 'Ahorcado App'
   }
 }

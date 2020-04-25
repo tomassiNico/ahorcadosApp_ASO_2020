@@ -19,12 +19,12 @@ const styles = StyleSheet.create({
         flex: 0.6
     },
     letterContainer: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 5,
         paddingTop: 40
     },
     letter: {
-        fontSize: 50,
-        fontWeight: 'bold'
+        fontSize: 40,
+        fontWeight: 'bold',
     },
     lifeContainer: {
         flexDirection: 'row',
