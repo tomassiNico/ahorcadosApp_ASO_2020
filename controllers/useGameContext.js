@@ -7,11 +7,9 @@ const getIndexOfLetter = (word, letter) => {
         if (word[i].toLowerCase() === letter.toLowerCase()) indexs.push(i);
     }
     return indexs
-}
+};
 
-
-//TODO OBTENER OTRA PALABRA
-const word = 'ricardo';
+const word = '';
 
 export const useGameContext = () => {
     const [gameState, setGameState] = useState({
@@ -68,7 +66,13 @@ export const useGameContext = () => {
             play,
             newGame
         })
-    }, [gameState])
+    }, [gameState]);
 
-    return contextState
-}
+    useEffect(
+        () => {
+            newGame()
+        }
+        , []);
+
+    return contextState;
+};

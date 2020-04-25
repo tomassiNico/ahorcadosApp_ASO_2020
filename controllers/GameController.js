@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import WordServices from '../repositories/WordServices';
 
-const word = 'ricardo';
+const word = '';
 
 export const gameInitState = {
     word: word,
