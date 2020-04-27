@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 
 
-export const Keyboard = ({ onPressKey, letterIncludes }) => {
+export const Keyboard = ({ onPressKey, letterIncludes, actualWord, disabled }) => {
     const rowLetters = [ 
         {from: 'A', to: 'H'},
         {from: 'I', to: 'Q'},
@@ -38,13 +38,23 @@ export const Keyboard = ({ onPressKey, letterIncludes }) => {
     const getTextStyle = (letter) => {
         let style = {
             fontSize: 30,
-            paddingVertical: 12
-        }
+            paddingVertical: 12,
+
+        };
+        let wordToLowerCase = actualWord.toLowerCase();
         if (letterIncludes.includes(letter)) {
-            style = {
-                ...style,
-                textDecorationLine: "line-through",
-                color: 'green'
+            if (wordToLowerCase.includes(letter.toLowerCase())) {
+                style = {
+                    ...style,
+                    color: 'green',
+                    textDecorationLine: "line-through"
+                }
+            } else {
+                style = {
+                    ...style,
+                    textDecorationLine: "line-through",
+                    color: 'red'
+                }
             }
         }
         return style
@@ -56,7 +66,7 @@ export const Keyboard = ({ onPressKey, letterIncludes }) => {
                 <View key={i} style={styles.keyboard}>
                     {genCharArray(from, to).map((letter, i) => (
                         <View key={i} style={styles.buttonKeyboard}>
-                            <TouchableOpacity onPress={() => onPressKey(letter)} disabled={letterIncludes.includes(letter)}>
+                            <TouchableOpacity onPress={() => onPressKey(letter)} disabled={letterIncludes.includes(letter) || disabled}>
                                 <Text style={getTextStyle(letter)}>{letter}</Text>
                             </TouchableOpacity>
                         </View>))}

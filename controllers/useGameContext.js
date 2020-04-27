@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { gameInitState } from './GameController';
+import { createNewState } from './GameController';
+import WordServices from '../repositories/WordServices';
 
 const getIndexOfLetter = (word, letter) => {
     const indexs = [];
@@ -7,21 +8,21 @@ const getIndexOfLetter = (word, letter) => {
         if (word[i].toLowerCase() === letter.toLowerCase()) indexs.push(i);
     }
     return indexs
-}
+};
 
+const wordInit = '';
 
-//TODO OBTENER OTRA PALABRA
-const word = 'ricardo';
+const initContext = {
+    word: wordInit,
+    stateGameWord: wordInit.split('').map(() => '_'),
+    life: 7,
+    win: false,
+    gameOver: false,
+    letterIntents: []
+};
 
 export const useGameContext = () => {
-    const [gameState, setGameState] = useState({
-        word: word,
-        stateGameWord: word.split('').map(() => '_'),
-        life: 3,
-        win: false,
-        gameOver: false,
-        letterIntents: []
-    });
+    const [gameState, setGameState] = useState(initContext);
 
     const play = (letter) => {
         let { word, stateGameWord, life, letterIntents, win, gameOver } = gameState;
@@ -43,6 +44,11 @@ export const useGameContext = () => {
             win = true
         }
 
+        if ( win || gameOver) {
+            for (let i = 0; i < word.length; i++) {
+                newStateWord[i] = word[i].toUpperCase();
+            }
+        }
         setGameState({
             ...gameState,
             stateGameWord: newStateWord,
@@ -53,9 +59,15 @@ export const useGameContext = () => {
         })
     };
 
-    const newGame = () => {
-        setGameState(gameInitState);
-    }
+    const newGame = async () => {
+        const newWord = await WordServices.getWord();
+        setGameState({
+            ...initContext,
+            word: newWord,
+            stateGameWord: newWord.split('').map(() => '_'),
+            letterIntents: []
+        })
+    };
 
     const [contextState, setcontextState] = useState({
         ...gameState,
@@ -68,7 +80,13 @@ export const useGameContext = () => {
             play,
             newGame
         })
-    }, [gameState])
+    }, [gameState]);
 
-    return contextState
-}
+    useEffect(
+        () => {
+            newGame()
+        }
+        , []);
+
+    return contextState;
+};
