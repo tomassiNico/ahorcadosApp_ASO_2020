@@ -26,6 +26,11 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: 'bold',
     },
+    letterLose: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        color: 'red'
+    },
     lifeContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
@@ -49,20 +54,13 @@ const GameScreen = () => {
                 <>
                     <View style={{ alignItems: 'center', paddingVertical: 8 }}>
                         <Text style={{ fontSize: 34, fontWeight: 'bold', color: win ? 'green' : 'red' }}>{win ? 'Has ganado !! yuju !' : 'Has perdido !! ohooh !'}</Text>
-                        <Text style={{ fontSize: 34, fontWeight: 'bold', color: 'red' }}>{win ? '' : 'La plabra era: ' + word}</Text>
-                    </View>
-                    <View style={{ paddingHorizontal: 24 }} >
-                        <Button
-                            title="Jugar de nuevo"
-                            onPress={newGame}
-                        />
                     </View>
                 </>
             )}
             <View style={styles.wordContainer}>
                 {stateGameWord.map((letter, i) => (
                     <View key={i} style={styles.letterContainer}>
-                        <Text style={styles.letter}>{letter}</Text>
+                        <Text style={gameOver ? styles.letterLose : styles.letter}>{letter}</Text>
                     </View>))}
                 <View style={styles.lifeContainer}>
                     <Text style={styles.lifeText}>Vidas restantes: {life}</Text>
@@ -74,6 +72,16 @@ const GameScreen = () => {
                 actualWord={word}
                 disabled={win || gameOver}
             />
+            {(win || gameOver) && (
+                <>
+                    <View style={{ paddingHorizontal: 24}} >
+                        <Button
+                            title="Jugar de nuevo"
+                            onPress={newGame}
+                        />
+                    </View>
+                </>
+            )}
         </View>
     )
 }

@@ -41,6 +41,11 @@ export const useGameContext = () => {
             win = true
         }
 
+        if ( win || gameOver) {
+            for (let i = 0; i < word.length; i++) {
+                newStateWord[i] = word[i].toUpperCase();
+            }
+        }
         setGameState({
             ...gameState,
             stateGameWord: newStateWord,
