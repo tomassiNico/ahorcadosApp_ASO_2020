@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 });
 
 const GameScreen = () => {
-    const { win, gameOver, stateGameWord, life, letterIntents, play, newGame } = useContext(GameContext);
+    const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word } = useContext(GameContext);
 
     return (
         <View style={styles.container}>
@@ -49,6 +49,7 @@ const GameScreen = () => {
                 <>
                     <View style={{ alignItems: 'center', paddingVertical: 8 }}>
                         <Text style={{ fontSize: 34, fontWeight: 'bold', color: win ? 'green' : 'red' }}>{win ? 'Has ganado !! yuju !' : 'Has perdido !! ohooh !'}</Text>
+                        <Text style={{ fontSize: 34, fontWeight: 'bold', color: 'red' }}>{win ? '' : 'La plabra era: ' + word}</Text>
                     </View>
                     <View style={{ paddingHorizontal: 24 }} >
                         <Button
@@ -70,6 +71,8 @@ const GameScreen = () => {
             <Keyboard
                 onPressKey={play}
                 letterIncludes={letterIntents}
+                actualWord={word}
+                disabled={win || gameOver}
             />
         </View>
     )

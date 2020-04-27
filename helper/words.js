@@ -15,9 +15,6 @@ export default [
         word: "cabeza"
     },
     {
-        word: "estómago"
-    },
-    {
         word: "abdomen"
     },
     {
@@ -40,9 +37,6 @@ export default [
     },
     {
         word: "montaña"
-    },
-    {
-        word: "camarón"
     },
     {
         word: "mariposa"
@@ -73,11 +67,5 @@ export default [
     },
     {
         word: "despejado"
-    },
-    {
-        word: "atmósfera"
-    },
-    {
-        word: "metálico"
     },
 ]
