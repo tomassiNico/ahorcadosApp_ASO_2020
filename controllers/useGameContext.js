@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { createNewState } from './GameController';
+import WordServices from '../repositories/WordServices';
 
 const getIndexOfLetter = (word, letter) => {
     const indexs = [];
@@ -9,17 +10,19 @@ const getIndexOfLetter = (word, letter) => {
     return indexs
 };
 
-const word = '';
+const wordInit = '';
+
+const initContext = {
+    word: wordInit,
+    stateGameWord: wordInit.split('').map(() => '_'),
+    life: 7,
+    win: false,
+    gameOver: false,
+    letterIntents: []
+};
 
 export const useGameContext = () => {
-    const [gameState, setGameState] = useState({
-        word: word,
-        stateGameWord: word.split('').map(() => '_'),
-        life: 3,
-        win: false,
-        gameOver: false,
-        letterIntents: []
-    });
+    const [gameState, setGameState] = useState(initContext);
 
     const play = (letter) => {
         let { word, stateGameWord, life, letterIntents, win, gameOver } = gameState;
@@ -57,7 +60,13 @@ export const useGameContext = () => {
     };
 
     const newGame = async () => {
-        setGameState(await createNewState());
+        const newWord = await WordServices.getWord();
+        setGameState({
+            ...initContext,
+            word: newWord,
+            stateGameWord: newWord.split('').map(() => '_'),
+            letterIntents: []
+        })
     };
 
     const [contextState, setcontextState] = useState({

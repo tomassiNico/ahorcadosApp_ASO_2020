@@ -38,15 +38,16 @@ export const Keyboard = ({ onPressKey, letterIncludes, actualWord, disabled }) =
     const getTextStyle = (letter) => {
         let style = {
             fontSize: 30,
-            paddingVertical: 12
+            paddingVertical: 12,
+
         };
         let wordToLowerCase = actualWord.toLowerCase();
         if (letterIncludes.includes(letter)) {
             if (wordToLowerCase.includes(letter.toLowerCase())) {
                 style = {
                     ...style,
-                    textDecorationLine: "line-through",
-                    color: 'green'
+                    color: 'green',
+                    textDecorationLine: "line-through"
                 }
             } else {
                 style = {

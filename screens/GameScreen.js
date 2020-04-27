@@ -26,11 +26,6 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: 'bold',
     },
-    letterLose: {
-        fontSize: 40,
-        fontWeight: 'bold',
-        color: 'red'
-    },
     lifeContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
@@ -60,7 +55,7 @@ const GameScreen = () => {
             <View style={styles.wordContainer}>
                 {stateGameWord.map((letter, i) => (
                     <View key={i} style={styles.letterContainer}>
-                        <Text style={gameOver ? styles.letterLose : styles.letter}>{letter}</Text>
+                        <Text style={gameOver ? {...styles.letter, color: 'red'} : styles.letter}>{letter}</Text>
                     </View>))}
                 <View style={styles.lifeContainer}>
                     <Text style={styles.lifeText}>Vidas restantes: {life}</Text>
