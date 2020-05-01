@@ -31,5 +31,6 @@ Esta app se contruyo con las siguientes tecnologías:
 
 ### Capturas de la app
 
-<img src="https://github.com/tomassiNico/ahorcadosApp_ASO_2020/blob/master/assets/images/Screenshot_2020-05-01-11-06-09-023_com.blacklist.blacklist.jpg?raw=true" alt="drawing" width="200"/>
-<img src="https://github.com/tomassiNico/ahorcadosApp_ASO_2020/blob/master/assets/images/Screenshot_2020-05-01-11-07-12-380_com.blacklist.blacklist.jpg?raw=true" alt="drawing" width="200"/>
+<img src="https://github.com/tomassiNico/ahorcadosApp_ASO_2020/blob/master/assets/images/nuevapartida.jpg?raw=true" alt="drawing" width="200"/>
+
+<img src="https://github.com/tomassiNico/ahorcadosApp_ASO_2020/blob/master/assets/images/sinpistas.jpg?raw=true" alt="drawing" width="200"/>
