@@ -17,14 +17,15 @@ const initContext = {
     life: 7,
     win: false,
     gameOver: false,
-    letterIntents: []
+    letterIntents: [],
+    coins: 5
 };
 
 export const useGameContext = () => {
     const [gameState, setGameState] = useState(initContext);
 
-    const play = (letter) => {
-        let { word, stateGameWord, life, letterIntents, win, gameOver } = gameState;
+    const play = (letter, isClue = false) => {
+        let { word, stateGameWord, life, letterIntents, win, gameOver, coins } = gameState;
         const indexs = getIndexOfLetter(word, letter);
         let newStateWord = [...stateGameWord];
         if (!indexs.length) {
@@ -43,18 +44,25 @@ export const useGameContext = () => {
             win = true
         }
 
-        if ( win || gameOver) {
+        if (win || gameOver) {
             for (let i = 0; i < word.length; i++) {
                 newStateWord[i] = word[i].toUpperCase();
             }
         }
+
+        let newCoins = coins;
+        if (isClue) {
+            newCoins--;
+        }
+
         setGameState({
             ...gameState,
             stateGameWord: newStateWord,
             life,
             letterIntents,
             win,
-            gameOver
+            gameOver,
+            coins: newCoins
         })
     };
 
@@ -68,16 +76,25 @@ export const useGameContext = () => {
         })
     };
 
+    const getClue = () => {
+        const { word, stateGameWord } = gameState;
+        let index = stateGameWord.findIndex(letter => letter === "_");
+        let letter = word.split('')[index].toUpperCase();
+        play(letter, true);
+    }
+
     const [contextState, setcontextState] = useState({
         ...gameState,
-        play
+        play,
+        getClue
     });
 
     useEffect(() => {
         setcontextState({
             ...gameState,
             play,
-            newGame
+            newGame,
+            getClue
         })
     }, [gameState]);
 
