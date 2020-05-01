@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { createNewState } from './GameController';
 import WordServices from '../repositories/WordServices';
 
 const getIndexOfLetter = (word, letter) => {
