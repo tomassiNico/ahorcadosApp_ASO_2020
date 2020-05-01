@@ -2,7 +2,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
 import TabBarIcon from '../components/TabBarIcon';
-import LinksScreen from '../screens/LinksScreen';
 import { GameScreenWithContext } from '../screens/GameScreen';
 
 const BottomTab = createBottomTabNavigator();
