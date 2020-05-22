@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
 import { GameContext } from '../controllers/GameController';
 import { useGameContext } from '../controllers/useGameContext';
 import { Keyboard } from '../components/Keyboard';
+import * as firebase from 'firebase'
+import 'firebase/firestore';
 
 const styles = StyleSheet.create({
   container: {
@@ -54,7 +56,25 @@ const styles = StyleSheet.create({
 
 const GameScreen = () => {
   const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, getClue } = useContext(GameContext);
+  const [db , setDB ] = useState({});
 
+  useEffect(() => {
+    const db = firebase.firestore();
+    setDB(db);
+  }, []);
+  useEffect(() => {
+    getUsers();
+  }, [db]);
+  const getUsers = async () => {
+    await db.collection('users').get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+      });
+    }).catch(err => {
+      console.log(err);
+    });
+  };
   return (
     <View style={styles.container}>
       {(win || gameOver) && (

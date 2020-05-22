@@ -8,6 +8,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
+import firebaseConfig from './configuration/firebaseConfig';
+import * as firebase from 'firebase';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +19,9 @@ export default function App(props) {
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 
+  React.useEffect(() => {
+    firebase.initializeApp(firebaseConfig);
+  }, []);
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
