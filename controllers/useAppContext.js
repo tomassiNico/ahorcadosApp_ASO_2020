@@ -2,15 +2,12 @@ import { useState, useEffect } from 'react';
 
 
 export const useAppContext = () => {
-    const [userState, setUserState] = useState({
-        username: ''
-    });
 
     const saveUser = (username) => {
-        setUserState({
+        setAppState({
           ...appState,
           username
-      })
+      });
     };
 
     const getUser = () => {
@@ -18,7 +15,6 @@ export const useAppContext = () => {
     };
 
     const [appState, setAppState] = useState({
-        ...userState,
         saveUser,
         getUser
     });

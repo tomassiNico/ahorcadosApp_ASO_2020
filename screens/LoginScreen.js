@@ -8,8 +8,7 @@ import {
 } from 'react-native';
 import { AppContext } from '../controllers/AppController';
 import { useAppContext } from '../controllers/useAppContext';
-import * as firebase from 'firebase'
-import 'firebase/firestore';
+import loginService from '../repositories/loginService';
 
 const styles = StyleSheet.create({
     container: {
@@ -27,26 +26,21 @@ const styles = StyleSheet.create({
 });
 
 const LoginScreen = ({ navigation }) => {
-    const { saveUser, getUser } = useContext(AppContext);
-    const [db , setDB ] = useState({});
+    const {saveUser, getUser } = useContext(AppContext);
     const [username, setUsername] = useState('');
 
-    useEffect(() => {
-        const db = firebase.firestore();
-        setDB(db);
-    }, []);
-
-    const login = () => {
+    const login = async () => {
         if (username !== '') {
-            db.collection('users').add({
-                username
-            }).then(docRef => {
-                console.log('Ingreso correctamente')
-            }).catch( err => {
-                console.log('El usuario ingresado ya existe')
-            })
+            const dataUser = await loginService.login(username);
+            if (dataUser) {
+                saveUser(dataUser.username);
+                navigation.navigate('Menu')
+            }
         }
-        navigation.navigate('Menu')
+    };
+    const ver = () => {
+        let borrar = getUser();
+        console.log(borrar);
     }
     return (
         <View style={styles.container}>
@@ -63,10 +57,15 @@ const LoginScreen = ({ navigation }) => {
                     title="Iniciar"
                     onPress={login}
                 />
+                <Button
+                style={styles.button}
+                title="ver"
+                onPress={ver}
+                />
             </View>
         </View>
     )
-}
+};
 
 export const LoginScreenWithContext = (props) => {
     const stateContext = useAppContext();
