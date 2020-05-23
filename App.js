@@ -6,7 +6,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import BottomTabNavigator from './navigation/BottomTabNavigator';
+import {MenuScreenWithContext} from './screens/MenuScreen';
+import {GameScreenWithContext} from './screens/GameScreen';
+import {LoginScreenWithContext} from './screens/LoginScreen';
 import useLinking from './navigation/useLinking';
 import firebaseConfig from './configuration/firebaseConfig';
 import * as firebase from 'firebase';
@@ -55,8 +57,10 @@ export default function App(props) {
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
+          <Stack.Navigator initialRouteName={"MenuScreen"}>
+            <Stack.Screen name="Login" component={LoginScreenWithContext} />
+            <Stack.Screen name="Menu" component={MenuScreenWithContext} />
+            <Stack.Screen name="Game" component={GameScreenWithContext} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
