@@ -8,7 +8,7 @@ import {
 import * as firebase from 'firebase'
 import 'firebase/firestore';
 import {store} from "../providers/appProvider";
-
+import firebaseService from "../repositories/firebaseService";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -26,7 +26,17 @@ const styles = StyleSheet.create({
 
 const MenuScreen = ({ navigation }) => {
     const globalState = useContext(store);
-
+    const { dispatch } = globalState;
+    const [newInvitation, subsInvitation] = useState({});
+    useEffect(() => {
+        firebaseService.subscribe(
+            'games',
+            'username2',
+            '==',
+            globalState.state.username,
+            (data) => dispatch({ type: 'SAVE_INVITATION', data }),
+        )
+    }, []);
     return (
         <View style={styles.container}>
             <Text >Bienvenido {globalState.state.username}</Text>

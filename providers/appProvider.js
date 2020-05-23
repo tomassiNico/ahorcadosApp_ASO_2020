@@ -8,10 +8,19 @@ const AppProvider = ( { children } ) => {
     const [state, dispatch] = useReducer((state, {type , data}) => {
         switch(type) {
             case 'SAVE_USER':
-                let oldState = state;
                 return {
-                    ...oldState,
+                    ...state,
                     username: data
+                };
+            case 'SAVE_INVITATION':
+                let invitations = [];
+                if (state.invitations) {
+                    invitations = state.invitations
+                }
+                invitations.push(data);
+                return {
+                    ...state,
+                    invitations
                 };
             default:
                 throw new Error();
