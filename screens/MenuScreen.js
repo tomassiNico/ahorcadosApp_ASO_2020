@@ -5,10 +5,9 @@ import {
     StyleSheet,
     Button
 } from 'react-native';
-import { AppContext } from '../controllers/AppController';
-import { useAppContext } from '../controllers/useAppContext';
 import * as firebase from 'firebase'
 import 'firebase/firestore';
+import {store} from "../providers/appProvider";
 
 const styles = StyleSheet.create({
     container: {
@@ -26,16 +25,11 @@ const styles = StyleSheet.create({
 });
 
 const MenuScreen = ({ navigation }) => {
-    const { saveUser, getUser, username } = useContext(AppContext);
-    const [db , setDB ] = useState({});
-
-    useEffect(() => {
-        const db = firebase.firestore();
-        setDB(db);
-    }, []);
+    const globalState = useContext(store);
 
     return (
         <View style={styles.container}>
+            <Text >Bienvenido {globalState.state.username}</Text>
             <Text style={styles.title}>Ahorcados</Text>
             <View style={styles.buttonContainer}>
                 <Button
@@ -51,12 +45,6 @@ const MenuScreen = ({ navigation }) => {
             </View>
         </View>
     )
-}
+};
 
-export const MenuScreenWithContext = (props) => {
-    const stateContext = useAppContext();
-    return (
-        <AppContext.Provider value={stateContext}>
-            <MenuScreen {...props}/>
-        </AppContext.Provider>)
-}
+export default MenuScreen;

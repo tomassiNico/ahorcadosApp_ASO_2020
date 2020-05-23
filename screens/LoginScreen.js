@@ -6,10 +6,8 @@ import {
     Button,
     TextInput
 } from 'react-native';
-import { AppContext } from '../controllers/AppController';
-import { useAppContext } from '../controllers/useAppContext';
 import loginService from '../repositories/loginService';
-
+import {store} from '../providers/appProvider';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -26,22 +24,19 @@ const styles = StyleSheet.create({
 });
 
 const LoginScreen = ({ navigation }) => {
-    const {saveUser, getUser } = useContext(AppContext);
+    const globalState = useContext(store);
+    const { dispatch } = globalState;
     const [username, setUsername] = useState('');
 
     const login = async () => {
         if (username !== '') {
             const dataUser = await loginService.login(username);
             if (dataUser) {
-                saveUser(dataUser.username);
+                dispatch({ type: 'SAVE_USER', data: dataUser.username });
                 navigation.navigate('Menu')
             }
         }
     };
-    const ver = () => {
-        let borrar = getUser();
-        console.log(borrar);
-    }
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Registrarse o Iniciar Sesion</Text>
@@ -57,20 +52,9 @@ const LoginScreen = ({ navigation }) => {
                     title="Iniciar"
                     onPress={login}
                 />
-                <Button
-                style={styles.button}
-                title="ver"
-                onPress={ver}
-                />
             </View>
         </View>
     )
 };
 
-export const LoginScreenWithContext = (props) => {
-    const stateContext = useAppContext();
-    return (
-        <AppContext.Provider value={stateContext}>
-            <LoginScreen {...props}/>
-        </AppContext.Provider>)
-}
+export default LoginScreen;
