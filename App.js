@@ -12,6 +12,7 @@ import LoginScreen from './screens/LoginScreen';
 import useLinking from './navigation/useLinking';
 import {AppProvider} from './providers/appProvider';
 import Notifications from './components/Notifications';
+import Logout from "./components/Logout";
 const Stack = createStackNavigator();
 
 export default function App(props) {
@@ -59,7 +60,13 @@ export default function App(props) {
                   <Stack.Screen
                       name="Menu"
                       component={MenuScreen}
-                      options={({ navigation }) => ({headerRight: () => (<Notifications/>)})}
+                      options={({ navigation }) => ({
+                        headerRight: () => (
+                            <View>
+                              <Logout navigation={navigation}/>
+                              <Notifications/>
+                            </View>),
+                      })}
                   />
                   <Stack.Screen name="Game" component={GameScreenWithContext} />
                 </Stack.Navigator>
