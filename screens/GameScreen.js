@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   View,
   Text,
@@ -8,8 +8,6 @@ import {
 import { GameContext } from '../controllers/GameController';
 import { useGameContext } from '../controllers/useGameContext';
 import { Keyboard } from '../components/Keyboard';
-import * as firebase from 'firebase'
-import 'firebase/firestore';
 
 const styles = StyleSheet.create({
   container: {
@@ -56,80 +54,62 @@ const styles = StyleSheet.create({
 
 const GameScreen = () => {
   const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, getClue } = useContext(GameContext);
-  const [db , setDB ] = useState({});
 
-  useEffect(() => {
-    const db = firebase.firestore();
-    setDB(db);
-  }, []);
-  useEffect(() => {
-    getUsers();
-  }, [db]);
-  const getUsers = async () => {
-    await db.collection('users').get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-      });
-    }).catch(err => {
-      console.log(err);
-    });
-  };
   return (
-    <View style={styles.container}>
-      {(win || gameOver) && (
-        <>
-          <View style={{ alignItems: 'center', paddingVertical: 8 }}>
-            <Text style={{ fontSize: 34, fontWeight: 'bold', color: win ? 'green' : 'red' }}>{win ? 'Has ganado !! yuju !' : 'Has perdido !! ohooh !'}</Text>
+      <View style={styles.container}>
+        {(win || gameOver) && (
+            <>
+              <View style={{ alignItems: 'center', paddingVertical: 8 }}>
+                <Text style={{ fontSize: 34, fontWeight: 'bold', color: win ? 'green' : 'red' }}>{win ? 'Has ganado !! yuju !' : 'Has perdido !! ohooh !'}</Text>
+              </View>
+            </>
+        )}
+        <View style={styles.wordContainer}>
+          {stateGameWord.map((letter, i) => (
+              <View key={i} style={styles.letterContainer}>
+                <Text style={gameOver ? { ...styles.letter, color: 'red' } : styles.letter}>{letter}</Text>
+              </View>))}
+          <View style={styles.lifeContainer}>
+            <Text style={styles.lifeText}>Vidas restantes: {life}</Text>
           </View>
-        </>
-      )}
-      <View style={styles.wordContainer}>
-        {stateGameWord.map((letter, i) => (
-          <View key={i} style={styles.letterContainer}>
-            <Text style={gameOver ? { ...styles.letter, color: 'red' } : styles.letter}>{letter}</Text>
-          </View>))}
-        <View style={styles.lifeContainer}>
-          <Text style={styles.lifeText}>Vidas restantes: {life}</Text>
+          <View style={styles.coinsContainer}>
+            <Text style={styles.coinsText}>Monedas: {coins}</Text>
+          </View>
         </View>
-        <View style={styles.coinsContainer}>
-          <Text style={styles.coinsText}>Monedas: {coins}</Text>
-        </View>
+        <Keyboard
+            onPressKey={play}
+            letterIncludes={letterIntents}
+            actualWord={word}
+            disabled={win || gameOver}
+        />
+        {((!win && !gameOver) && coins > 0) && (
+            <>
+              <View style={{ paddingHorizontal: 24 }} >
+                <Button
+                    title="Usar una moneda"
+                    onPress={getClue}
+                />
+              </View>
+            </>
+        )}
+        {(win || gameOver) && (
+            <>
+              <View style={{ paddingHorizontal: 24 }} >
+                <Button
+                    title="Jugar de nuevo"
+                    onPress={newGame}
+                />
+              </View>
+            </>
+        )}
       </View>
-      <Keyboard
-        onPressKey={play}
-        letterIncludes={letterIntents}
-        actualWord={word}
-        disabled={win || gameOver}
-      />
-      {((!win && !gameOver) && coins > 0) && (
-        <>
-          <View style={{ paddingHorizontal: 24 }} >
-            <Button
-              title="Usar una moneda"
-              onPress={getClue}
-            />
-          </View>
-        </>
-      )}
-      {(win || gameOver) && (
-        <>
-          <View style={{ paddingHorizontal: 24 }} >
-            <Button
-              title="Jugar de nuevo"
-              onPress={newGame}
-            />
-          </View>
-        </>
-      )}
-    </View>
   )
 }
 
 export const GameScreenWithContext = () => {
   const stateContext = useGameContext();
   return (
-    <GameContext.Provider value={stateContext}>
-      <GameScreen />
-    </GameContext.Provider>)
+      <GameContext.Provider value={stateContext}>
+        <GameScreen />
+      </GameContext.Provider>)
 }
