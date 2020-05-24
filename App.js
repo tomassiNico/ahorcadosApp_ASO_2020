@@ -11,6 +11,7 @@ import {GameScreenWithContext} from './screens/GameScreen';
 import LoginScreen from './screens/LoginScreen';
 import useLinking from './navigation/useLinking';
 import {AppProvider} from './providers/appProvider';
+import Notifications from './components/Notifications';
 const Stack = createStackNavigator();
 
 export default function App(props) {
@@ -55,7 +56,11 @@ export default function App(props) {
               <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
                 <Stack.Navigator initialRouteName={"MenuScreen"}>
                   <Stack.Screen name="Login" component={LoginScreen} />
-                  <Stack.Screen name="Menu" component={MenuScreen} />
+                  <Stack.Screen
+                      name="Menu"
+                      component={MenuScreen}
+                      options={({ navigation }) => ({headerRight: () => (<Notifications/>)})}
+                  />
                   <Stack.Screen name="Game" component={GameScreenWithContext} />
                 </Stack.Navigator>
               </NavigationContainer>
