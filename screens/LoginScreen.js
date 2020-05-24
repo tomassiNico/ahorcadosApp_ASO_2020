@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation }) => {
         if (username !== '') {
             const dataUser = await loginService.login(username);
             if (dataUser) {
-                dispatch({ type: 'SAVE_USER', data: dataUser.username });
+                dispatch({ type: 'LOGIN', data: dataUser.username });
                 navigation.navigate('Menu')
             }
         }

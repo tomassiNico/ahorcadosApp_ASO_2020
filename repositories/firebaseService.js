@@ -30,6 +30,23 @@ class firebaseService {
                 });
             });
     }
+    subscribeWithTwoConditions = async (collection, atributte1, operator1, value1,atributte2, operator2, value2, dispatchAdded, DispatchModified, DispatchRemoved) => {
+        this.db.collection(collection).where(atributte1, operator1, value1).where(atributte2, operator2,value2)
+            .onSnapshot(function(snapshot) {
+                snapshot.docChanges().forEach(function(change) {
+                    if (change.type === "added") {
+                        dispatchAdded(change.doc.data());
+                    }
+                    //No contemplado aun
+                    /*if (change.type === "modified") {
+                        DispatchModified(change.doc.data());
+                    }
+                    if (change.type === "removed") {
+                        DispatchRemoved(change.doc.data());
+                    }*/
+                });
+            });
+    }
 
 }
 const singletonFirebaseServices = new firebaseService();

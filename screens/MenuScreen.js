@@ -5,7 +5,6 @@ import {
     StyleSheet,
     Button
 } from 'react-native';
-import * as firebase from 'firebase'
 import 'firebase/firestore';
 import {store} from "../providers/appProvider";
 import firebaseService from "../repositories/firebaseService";
@@ -27,14 +26,20 @@ const styles = StyleSheet.create({
 const MenuScreen = ({ navigation }) => {
     const globalState = useContext(store);
     const { dispatch } = globalState;
-    const [newInvitation, subsInvitation] = useState({});
     useEffect(() => {
-        firebaseService.subscribe(
+        firebaseService.subscribeWithTwoConditions(
             'games',
             'username2',
             '==',
             globalState.state.username,
-            (data) => dispatch({ type: 'SAVE_INVITATION', data }),
+            'winner',
+            '==',
+            '',
+            (data) => {
+                if (data.winner === ''){
+                    dispatch({ type: 'SAVE_INVITATION', data });
+                }
+            },
         )
     }, []);
     return (

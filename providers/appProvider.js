@@ -7,11 +7,13 @@ const { Provider } = store;
 const AppProvider = ( { children } ) => {
     const [state, dispatch] = useReducer((state, {type , data}) => {
         switch(type) {
-            case 'SAVE_USER':
+            case 'LOGIN':
                 return {
                     ...state,
                     username: data
                 };
+            case 'LOGOUT':
+                return {};
             case 'SAVE_INVITATION':
                 let invitations = [];
                 if (state.invitations) {
