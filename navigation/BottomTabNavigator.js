@@ -3,6 +3,7 @@ import * as React from 'react';
 
 import TabBarIcon from '../components/TabBarIcon';
 import { GameScreenWithContext } from '../screens/GameScreen';
+import { MenuScreenWithContext } from '../screens/MenuScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Game';
@@ -15,6 +16,14 @@ export default function BottomTabNavigator({ navigation, route }) {
 
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+        <BottomTab.Screen
+            name="Menu"
+            component={MenuScreenWithContext}
+            options={{
+                title: 'Menu',
+                tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
+            }}
+        />
       <BottomTab.Screen
         name="Game"
         component={GameScreenWithContext}
