@@ -8,6 +8,9 @@ import {
 import { GameContext } from '../controllers/GameController';
 import { useGameContext } from '../controllers/useGameContext';
 import { Keyboard } from '../components/Keyboard';
+import Coins from '../components/Coins';
+import Lifes from '../components/Lifes';
+import Clock from '../components/Clock';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,35 +28,12 @@ const styles = StyleSheet.create({
   letter: {
     fontSize: 40,
     fontWeight: 'bold',
-  },
-  lifeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    paddingHorizontal: 8,
-    paddingTop: 0
-  },
-  lifeText: {
-    fontSize: 24
-  },
-  coinsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    position: 'absolute',
-    right: 0,
-    top: 20,
-    paddingHorizontal: 8,
-    paddingTop: 5
-  },
-  coinsText: {
-    fontSize: 24
   }
 });
 
 const GameScreen = () => {
-  const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, getClue } = useContext(GameContext);
+  const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, seconds, getClue } = useContext(GameContext);
+
 
   return (
       <View style={styles.container}>
@@ -64,17 +44,16 @@ const GameScreen = () => {
               </View>
             </>
         )}
+        <View style={{ flexDirection: 'row', justifyContent:  'center' }} >
+          <Lifes lifes={life} />
+          <Clock seconds={seconds} />
+          <Coins coins={coins} />
+        </View>
         <View style={styles.wordContainer}>
           {stateGameWord.map((letter, i) => (
-              <View key={i} style={styles.letterContainer}>
-                <Text style={gameOver ? { ...styles.letter, color: 'red' } : styles.letter}>{letter}</Text>
-              </View>))}
-          <View style={styles.lifeContainer}>
-            <Text style={styles.lifeText}>Vidas restantes: {life}</Text>
-          </View>
-          <View style={styles.coinsContainer}>
-            <Text style={styles.coinsText}>Monedas: {coins}</Text>
-          </View>
+            <View key={i} style={styles.letterContainer}>
+              <Text style={gameOver ? { ...styles.letter, color: 'red' } : styles.letter}>{letter}</Text>
+            </View>))}
         </View>
         <Keyboard
             onPressKey={play}
