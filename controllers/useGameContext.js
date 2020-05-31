@@ -23,7 +23,7 @@ const initContext = {
     seconds: 0,
 };
 
-export const useGameContext = () => {
+export const useGameContext = (word) => {
     const [gameState, setGameState] = useState(initContext);
 
     const [seconds, stopTimer, resetTimer] =  useTimer();
@@ -73,7 +73,7 @@ export const useGameContext = () => {
     };
 
     const newGame = async () => {
-        const newWord = await WordServices.getWord();
+        const newWord = word ? word : await WordServices.getWord();
         setGameState({
             ...initContext,
             word: newWord,

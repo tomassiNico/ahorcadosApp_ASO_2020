@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,6 @@ import { Keyboard } from '../components/Keyboard';
 import Coins from '../components/Coins';
 import Lifes from '../components/Lifes';
 import Clock from '../components/Clock';
-import useTimer from '../components/hooks/useTimer';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,17 +30,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   }
 });
-
-const Timer = ({ seconds  }) => {
-  const mins = parseInt(seconds / 60);
-  const secs = (seconds%60).toString().padStart(2, '0');
-
-  return (
-    <View>
-        <Text style={styles.lifeText}>{mins}:{secs}</Text>
-    </View>
-  )
-}
 
 const GameScreen = () => {
   const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, seconds, getClue } = useContext(GameContext);
