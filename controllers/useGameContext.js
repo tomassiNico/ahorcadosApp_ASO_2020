@@ -26,7 +26,7 @@ const initContext = {
 export const useGameContext = () => {
     const [gameState, setGameState] = useState(initContext);
 
-    const [seconds, stopTimer] =  useTimer();
+    const [seconds, stopTimer, resetTimer] =  useTimer();
 
     const play = (letter, isClue = false) => {
         let { word, stateGameWord, life, letterIntents, win, gameOver, coins } = gameState;
@@ -80,7 +80,7 @@ export const useGameContext = () => {
             stateGameWord: newWord.split('').map(() => '_'),
             letterIntents: [],
             seconds,
-        })
+        });
     };
 
     const getClue = () => {
@@ -91,7 +91,7 @@ export const useGameContext = () => {
     }
 
     useEffect(() => {
-        newGame()
+        newGame();
     },[]);
 
     useEffect(() => {

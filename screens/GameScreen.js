@@ -44,19 +44,7 @@ const Timer = ({ seconds  }) => {
 }
 
 const GameScreen = () => {
-  /* const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, seconds, getClue } = useContext(GameContext); */
-  const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, getClue } = useContext(GameContext);
-  /* const [timer, setTimer] = useState(0);
-
-  useEffect(()=>{
-    const interval = setInterval(()=>{
-      setTimer(timer => timer+1);
-    },1000);
-
-    return () => clearInterval(interval)
-  }, [])
- */
-  const [seconds, stopTimer] =  useTimer();
+  const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, seconds, getClue } = useContext(GameContext);
 
 
   return (
