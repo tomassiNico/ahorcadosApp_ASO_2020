@@ -57,6 +57,8 @@ const GameScreen = () => {
 
   const [seconds, stopTimer] =  useTimer();
 
+  const [seconds, stopTimer] =  useTimer();
+
   return (
       <View style={styles.container}>
         {(win || gameOver) && (
