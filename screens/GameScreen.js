@@ -33,9 +33,7 @@ const styles = StyleSheet.create({
 });
 
 const GameScreen = () => {
-  const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, getClue } = useContext(GameContext);
-
-  const [seconds, stopTimer] =  useTimer();
+  const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, seconds, getClue } = useContext(GameContext);
 
   return (
       <View style={styles.container}>

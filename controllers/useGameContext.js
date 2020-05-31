@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import WordServices from '../repositories/WordServices';
+import useTimer from '../components/hooks/useTimer';
 
 const getIndexOfLetter = (word, letter) => {
     const indexs = [];
@@ -18,11 +19,14 @@ const initContext = {
     win: false,
     gameOver: false,
     letterIntents: [],
-    coins: 5
+    coins: 5,
+    seconds: 0,
 };
 
 export const useGameContext = () => {
     const [gameState, setGameState] = useState(initContext);
+
+    const [seconds, stopTimer] =  useTimer();
 
     const play = (letter, isClue = false) => {
         let { word, stateGameWord, life, letterIntents, win, gameOver, coins } = gameState;
@@ -32,6 +36,7 @@ export const useGameContext = () => {
             life = life - 1
             if (life === 0) {
                 gameOver = true
+                stopTimer();
             }
         } else {
             indexs.forEach((index) => {
@@ -42,6 +47,7 @@ export const useGameContext = () => {
 
         if (word.toLowerCase() === newStateWord.join('').toLowerCase()) {
             win = true
+            stopTimer();
         }
 
         if (win || gameOver) {
@@ -72,7 +78,8 @@ export const useGameContext = () => {
             ...initContext,
             word: newWord,
             stateGameWord: newWord.split('').map(() => '_'),
-            letterIntents: []
+            letterIntents: [],
+            seconds,
         })
     };
 
@@ -83,26 +90,18 @@ export const useGameContext = () => {
         play(letter, true);
     }
 
-    const [contextState, setcontextState] = useState({
-        ...gameState,
-        play,
-        getClue
-    });
+    useEffect(() => {
+        newGame()
+    },[]);
 
     useEffect(() => {
-        setcontextState({
-            ...gameState,
-            play,
-            newGame,
-            getClue
-        })
-    }, [gameState]);
+        setGameState(state => ({...state, seconds}))
+    },[seconds]);
 
-    useEffect(
-        () => {
-            newGame()
-        }
-        , []);
-
-    return contextState;
+    return {
+        ...gameState,
+        play,
+        newGame,
+        getClue,
+    };
 };
