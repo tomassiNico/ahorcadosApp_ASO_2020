@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -52,8 +52,28 @@ const styles = StyleSheet.create({
   }
 });
 
+const Timer = ({ seconds  }) => {
+  const mins = parseInt(seconds / 60);
+  const secs = (seconds%60).toString().padStart(2, '0');
+
+  return (
+    <View>
+        <Text style={styles.lifeText}>{mins}:{secs}</Text>
+    </View>
+  )
+}
+
 const GameScreen = () => {
   const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, getClue } = useContext(GameContext);
+  const [timer, setTimer] = useState(0);
+
+  useEffect(()=>{
+    const interval = setInterval(()=>{
+      setTimer(timer => timer+1);
+    },1000);
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
       <View style={styles.container}>
@@ -71,6 +91,7 @@ const GameScreen = () => {
               </View>))}
           <View style={styles.lifeContainer}>
             <Text style={styles.lifeText}>Vidas restantes: {life}</Text>
+            <Timer seconds={timer}/>
           </View>
           <View style={styles.coinsContainer}>
             <Text style={styles.coinsText}>Monedas: {coins}</Text>
