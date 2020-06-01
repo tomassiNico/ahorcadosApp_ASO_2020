@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import WordServices from '../repositories/WordServices';
+import WordServices from '../../Shared/services/WordServices';
 import useTimer from '../components/hooks/useTimer';
 
 const getIndexOfLetter = (word, letter) => {

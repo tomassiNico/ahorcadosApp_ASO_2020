@@ -1,9 +1,9 @@
 import React, {useContext, useState} from 'react';
 import {Badge, Overlay, Button, } from "react-native-elements";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {store} from "../providers/appProvider";
+import {store} from "../../Shared/providers/appProvider";
 import {Text, View} from "react-native";
-import singletonFirebaseServices from '../repositories/firebaseService';
+import singletonFirebaseServices from '../../Shared/services/firebaseService';
 
 export default (props) => {
     const [isListVisible, setListVisible] =useState(false)

@@ -1,14 +1,14 @@
 import React, { useState,  useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import singletonFirebaseServices from '../repositories/firebaseService';
-import WordServices from '../repositories/WordServices';
-import {store} from "../providers/appProvider";
+import singletonFirebaseServices from '../../Shared/services/firebaseService';
+import WordServices from '../../Shared/services/WordServices';
+import {store} from "../../Shared/providers/appProvider";
 
 const VersusScreen = (props) => {
   const [users, setUsers] = useState([]);
   const globalState = useContext(store);
 
-  
+
   useEffect(() => {
     const fetchData = async  () => {
       let usersData  = await singletonFirebaseServices.fetchUsers();
@@ -39,7 +39,7 @@ const VersusScreen = (props) => {
       }
   }
 
-  
+
 
   return (
     <View style={{  marginHorizontal: 8 }}>

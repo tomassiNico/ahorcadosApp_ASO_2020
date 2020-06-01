@@ -10,7 +10,7 @@ const Clock = ({ seconds }) => {
         <View style={{alignItems: 'center', padding: 8}}>
             <Image
                 style={{ height: 30, width: 30 }}
-                source={require('../assets/images/timer.png')}
+                source={require('../../../assets/images/timer.png')}
             />
             <Text style={{fontSize: 20}}>{mins}:{secs}</Text>
         </View>

@@ -5,13 +5,13 @@ import {
   StyleSheet,
   Button
 } from 'react-native';
-import { GameContext } from '../controllers/GameController';
-import { useGameContext } from '../controllers/useGameContext';
+import { GameContext } from '../context/GameController';
+import { useGameContext } from '../context/useGameContext';
 import { Keyboard } from '../components/Keyboard';
 import Coins from '../components/Coins';
 import Lifes from '../components/Lifes';
 import Clock from '../components/Clock';
-import {store} from "../providers/appProvider";
+import {store} from "../../Shared/providers/appProvider";
 
 const styles = StyleSheet.create({
   container: {
@@ -107,7 +107,7 @@ export const GameScreenWithContext = ({ navigation, route }) => {
   let { game, isVersus, word, username1, username2 } = route.params ? route.params : {};
   const stateContext = useGameContext(word);
   const globalState = useContext(store);
-  
+
   useEffect(() => {
     if(isVersus && (stateContext.win || stateContext.gameOver)){
       let updatedData = {}

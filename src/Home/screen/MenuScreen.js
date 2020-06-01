@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
     View,
     Text,
@@ -6,8 +6,9 @@ import {
     Button
 } from 'react-native';
 import 'firebase/firestore';
-import {store} from "../providers/appProvider";
-import firebaseService from "../repositories/firebaseService";
+import {store} from "../../Shared/providers/appProvider";
+import invitationsService from "../repository/invitationsService";
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -27,20 +28,7 @@ const MenuScreen = ({ navigation }) => {
     const globalState = useContext(store);
     const { dispatch } = globalState;
     useEffect(() => {
-        firebaseService.subscribeWithTwoConditions(
-            'games',
-            'username2',
-            '==',
-            globalState.state.username,
-            'winner',
-            '==',
-            '',
-            (data) => {
-                if (data.winner === ''){
-                    dispatch({ type: 'SAVE_INVITATION', data });
-                }
-            },
-        )
+        invitationsService.subscribeInvitations(globalState.state.username, dispatch);
     }, []);
     return (
         <View style={styles.container}>
@@ -54,7 +42,7 @@ const MenuScreen = ({ navigation }) => {
                 />
                 <Button
                     style={styles.button}
-                    title="Jugar VS"
+                    title="Jugar contra un oponente"
                     onPress={() => navigation.navigate('VS')}
                 />
             </View>

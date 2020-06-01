@@ -6,14 +6,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import MenuScreen from './screens/MenuScreen';
-import {GameScreenWithContext} from './screens/GameScreen';
-import LoginScreen from './screens/LoginScreen';
+import MenuScreen from './src/Home/screen/MenuScreen';
+import {GameScreenWithContext} from './src/Game/screens/GameScreen';
+import LoginScreen from './src/Login/screens/LoginScreen';
 import useLinking from './navigation/useLinking';
-import {AppProvider} from './providers/appProvider';
-import Notifications from './components/Notifications';
-import Logout from "./components/Logout";
-import VersusScreen from './screens/VersusScreen';
+import {AppProvider} from './src/Shared/providers/appProvider';
+import Notifications from './src/Home/components/Notifications';
+import Logout from "./src/Home/components/Logout";
+import VersusScreen from './src/Game/screens/VersusScreen';
 const Stack = createStackNavigator();
 
 export default function App(props) {

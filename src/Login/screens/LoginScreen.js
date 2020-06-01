@@ -6,8 +6,8 @@ import {
     Button,
     TextInput
 } from 'react-native';
-import loginService from '../repositories/loginService';
-import {store} from '../providers/appProvider';
+import loginService from '../repository/loginService';
+import {store} from '../../Shared/providers/appProvider';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
