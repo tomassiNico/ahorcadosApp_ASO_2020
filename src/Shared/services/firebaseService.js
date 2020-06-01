@@ -45,13 +45,12 @@ class firebaseService {
         collectionRef.onSnapshot(function(snapshot) {
                 snapshot.docChanges().forEach(function(change) {
                     if (change.type === "added") {
-                        dispatchAdded(change.doc.data());
+                        return dispatchAdded(change.doc.data());
                     }
-                    //No contemplado aun
-                    /*if (change.type === "modified") {
-                        DispatchModified(change.doc.data());
+                    if (change.type === "modified") {
+                        return DispatchModified(change.doc.data());
                     }
-                    if (change.type === "removed") {
+                    /*if (change.type === "removed") {
                         DispatchRemoved(change.doc.data());
                     }*/
                 });
