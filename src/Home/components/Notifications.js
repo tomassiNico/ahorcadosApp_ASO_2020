@@ -8,7 +8,8 @@ import gameService from "../../Game/repository/gameService";
 export default (props) => {
     const [isListVisible, setListVisible] =useState(false)
     const globalState = useContext(store);
-    const {invitations} = globalState.state;
+    const {games} = globalState.state;
+    const invitations = games && Array.isArray(games) ? games.filter(game => game.winner === ''): [];
     const _acceptGame = async (idGame) => {
         const game = await gameService.getVersusGame(idGame);
         setListVisible(false);
