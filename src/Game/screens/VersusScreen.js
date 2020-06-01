@@ -32,7 +32,7 @@ const VersusScreen = (props) => {
               winner: '',
           }
           const idGame = (new Date()).getTime().toString();
-          const game = gameService.createVersusGame(idGame, {...gameData, idGame});
+          const game = await gameService.createVersusGame(idGame, {...gameData, idGame});
           props.navigation.navigate('Game', { game: game, isVersus: true, word,  username1: globalState.state.username, username2: username })
       }catch(err){
         console.log('Error inesperado', err)
