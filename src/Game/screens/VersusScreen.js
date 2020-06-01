@@ -1,10 +1,8 @@
 import React, { useState,  useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import singletonFirebaseServices from '../../Shared/services/firebaseService';
 import WordServices from '../../Shared/services/WordServices';
 import {store} from "../../Shared/providers/appProvider";
 import userService from "../repository/userService";
-import Game from "../../Shared/entities/game";
 import gameService from "../repository/gameService";
 
 const VersusScreen = (props) => {

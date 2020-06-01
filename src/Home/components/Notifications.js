@@ -11,16 +11,12 @@ export default (props) => {
     const {invitations} = globalState.state;
     const _acceptGame = async (idGame) => {
         const game = await gameService.getVersusGame(idGame);
-        game.get().then(doc => {
-            setListVisible(false);
-            props.navigation.navigate('Game', { game: game, isVersus: true, word: doc.data().word,  username1: doc.data().username1, username2: doc.data().username2 })
-        })
+        setListVisible(false);
+        const {word, username1, username2} = game;
+        props.navigation.navigate('Game', { game: game, isVersus: true, word,  username1, username2})
     };
     const _rejectGame = async (idGame) => {
-        const game = await gameService.getVersusGame(idGame);
-        await game.update({
-            winner: '-'
-        })
+        await gameService.updateVersusGame(idGame, {winner: '-'})
     };
     return (
         <View >

@@ -8,6 +8,7 @@ class firebaseService {
         this.db = firebase.firestore();
     };
     getData = async (collection, atributte, operator, value) => {
+        //Metodo que devuelve un array con los documentos encontrados
         let collectionRef = this.db.collection(collection);
         if (atributte) {
            collectionRef = collectionRef.where(atributte, operator , value);
@@ -15,17 +16,25 @@ class firebaseService {
         let data = await collectionRef.get();
         return data.docs.map(doc => doc.data());
     };
-    getDataById = (colleccion, id) => {
-        return this.db.collection(colleccion).doc(id);
+
+    getDataById = async (colleccion, id) => {
+        //Metodo que devuelve el documento buscado
+        let docRef = await this.db.collection(colleccion).doc(id).get();
+        return docRef.data();
     };
     saveData = async (collection, data) => {
+        //Metodo que permite crear un documento con id generico
         let response = await this.db.collection(collection).add(data);
-        response.docs.map(doc => doc.data());
+        return response.docs.map(doc => doc.data());
     };
     saveDataWithId = async (collection, idDoc, data) => {
+        //Metodo que permite crear un documento con id parametrizado
         return await this.db.collection('games').doc(idDoc).set(data);
-    }
-
+    };
+    updateData = async (collection, idDoc, data) => {
+        //Metodo que permite actualizar algunas propiedades de un documento aprticular
+        return await this.db.collection('games').doc(idDoc).update(data);
+    };
     subscribe = async (collection, filters, dispatchAdded, DispatchModified, DispatchRemoved) => {
         let collectionRef = this.db.collection(collection);
         if (filters && Array.isArray(filters)) {

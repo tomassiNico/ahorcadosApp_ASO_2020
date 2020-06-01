@@ -6,9 +6,14 @@ const createVersusGame = async (idGame, gameData) => {
 
 const getVersusGame = async (idGame) => {
     return firebaseService.getDataById('games', idGame);
-
 };
+
+const updateVersusGame = async (idGame, gameData) => {
+    return await firebaseService.updateData('games', idGame, gameData);
+};
+
 export default {
     createVersusGame,
-    getVersusGame
+    getVersusGame,
+    updateVersusGame
 }
