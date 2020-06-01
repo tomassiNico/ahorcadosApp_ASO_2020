@@ -108,7 +108,7 @@ export const GameScreenWithContext = ({ navigation, route }) => {
           time2: stateContext.seconds,
         }
       }
-      if (game.state1 || game.state2) {
+      if (game.state1 && game.state2) {
         let winner = getWinner({...game, ...updatedData});
         updatedData = {
           ...updatedData,
