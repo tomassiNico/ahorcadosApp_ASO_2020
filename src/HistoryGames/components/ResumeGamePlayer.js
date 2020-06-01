@@ -8,12 +8,16 @@ const ResumeGamePlayer = ({ username, time, finalState, winner }) => {
   if(!finalState){
     state = ''
   }
+  
+  const style = winner === username ? {
+      color: 'green'
+  } : { }
 
   return (
     <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF00' }}>
-      <Text>Jugador: {username}</Text>
-      <Text>{labelTime}</Text>
-      <Text>{state}</Text>      
+      <Text style={style}>Jugador: {username}</Text>
+      <Text style={style}>{labelTime}</Text>
+      <Text style={style}>{state}</Text>      
     </View>
   )
 }
