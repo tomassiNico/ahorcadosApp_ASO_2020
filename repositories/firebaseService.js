@@ -13,6 +13,17 @@ class firebaseService {
     getData = async (collection, atributte, operator, value) => {
         return await this.db.collection(collection).where(atributte, operator , value).get();
     }
+    fetchUsers = async () => {
+        return (await this.db.collection('users').get()).docs.map(doc => doc.data());
+    }
+    createVersusGame = async (idDoc, data) => { 
+        const game = await this.db.collection('games').doc(idDoc);
+        game.set(data);
+        return game
+    }
+    getGame = async (idGame) => {
+        return await this.db.collection('games').doc(idGame);
+    }
     subscribe = async (collection, atributte, operator, value, dispatchAdded, DispatchModified, DispatchRemoved) => {
         this.db.collection(collection).where(atributte, operator, value)
             .onSnapshot(function(snapshot) {

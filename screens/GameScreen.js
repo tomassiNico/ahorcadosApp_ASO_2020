@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import { Keyboard } from '../components/Keyboard';
 import Coins from '../components/Coins';
 import Lifes from '../components/Lifes';
 import Clock from '../components/Clock';
+import {store} from "../providers/appProvider";
 
 const styles = StyleSheet.create({
   container: {
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const GameScreen = () => {
+const GameScreen = ({ isVersus }) => {
   const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, seconds, getClue } = useContext(GameContext);
 
 
@@ -71,7 +72,7 @@ const GameScreen = () => {
               </View>
             </>
         )}
-        {(win || gameOver) && (
+        {((win || gameOver) && !isVersus) && (
             <>
               <View style={{ paddingHorizontal: 24 }} >
                 <Button
@@ -85,10 +86,58 @@ const GameScreen = () => {
   )
 }
 
-export const GameScreenWithContext = () => {
-  const stateContext = useGameContext();
+const getWinner = (game) => {
+  const {state1, state2, time1, time2, username1, username2 } =  game;
+  let winner;
+  if(state1 === state2 && time1 === time2){
+    return "empate"
+  }
+
+  if(state2 !== state1){
+    winner = state1 === "win" ? username1 : username2;
+  }else if(state1 === "lose" && state1 === "lose"){
+    winner = "empate";
+  }else {
+    winner = time1 < time2 ? username1 : username2;
+  }
+  return winner
+}
+
+export const GameScreenWithContext = ({ navigation, route }) => {
+  let { game, isVersus, word, username1, username2 } = route.params ? route.params : {};
+  const stateContext = useGameContext(word);
+  const globalState = useContext(store);
+  
+  useEffect(() => {
+    if(isVersus && (stateContext.win || stateContext.gameOver)){
+      let updatedData = {}
+      if(username1 === globalState.state.username){
+        updatedData ={
+          state1: stateContext.win ? 'win' : 'lose',
+          time1: stateContext.seconds,
+        };
+      }else{
+        updatedData = {
+          state2: stateContext.win ? 'win' : 'lose',
+          time2: stateContext.seconds,
+        }
+      }
+      game.get().then((doc) => {
+        const gameData = doc.data();
+        if(gameData.state1 || gameData.state2){
+          let winner = getWinner({...gameData, ...updatedData});
+          updatedData = {
+            ...updatedData,
+            winner
+          }
+        }
+        game.update(updatedData)
+      })
+    }
+  }, [stateContext.win, stateContext.gameOver])
+
   return (
       <GameContext.Provider value={stateContext}>
-        <GameScreen />
+        <GameScreen isVersus={isVersus || false} />
       </GameContext.Provider>)
 }

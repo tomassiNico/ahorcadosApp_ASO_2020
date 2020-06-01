@@ -55,7 +55,7 @@ const MenuScreen = ({ navigation }) => {
                 <Button
                     style={styles.button}
                     title="Jugar VS"
-                    onPress={() => navigation.navigate('Game')}
+                    onPress={() => navigation.navigate('VS')}
                 />
             </View>
         </View>
