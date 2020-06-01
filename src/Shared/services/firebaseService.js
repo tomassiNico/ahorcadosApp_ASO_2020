@@ -29,7 +29,9 @@ class firebaseService {
     };
     saveDataWithId = async (collection, idDoc, data) => {
         //Metodo que permite crear un documento con id parametrizado
-        return await this.db.collection('games').doc(idDoc).set(data);
+        let docRef = this.db.collection(collection).doc(idDoc);
+        await docRef.set(data);
+        return this.getDataById(collection, idDoc);
     };
     updateData = async (collection, idDoc, data) => {
         //Metodo que permite actualizar algunas propiedades de un documento aprticular
