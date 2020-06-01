@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import singletonFirebaseServices from '../../Shared/services/firebaseService';
 import WordServices from '../../Shared/services/WordServices';
 import {store} from "../../Shared/providers/appProvider";
+import userService from "../repository/userService";
 
 const VersusScreen = (props) => {
   const [users, setUsers] = useState([]);
@@ -11,8 +12,7 @@ const VersusScreen = (props) => {
 
   useEffect(() => {
     const fetchData = async  () => {
-      let usersData  = await singletonFirebaseServices.fetchUsers();
-      usersData.filter(({username}) => username !== globalState.state.username);
+      let usersData = await userService.fetchUser();
       setUsers(usersData);
     }
     fetchData();

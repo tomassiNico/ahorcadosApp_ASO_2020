@@ -2,27 +2,12 @@ import React, { useContext, useEffect } from 'react';
 import {
     View,
     Text,
-    StyleSheet,
     Button
 } from 'react-native';
 import 'firebase/firestore';
 import {store} from "../../Shared/providers/appProvider";
 import invitationsService from "../repository/invitationsService";
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    buttonContainer: {
-        flex: 0.4,
-        justifyContent: 'space-around'
-    },
-    title: {
-        flex: 0.2,
-        fontSize: 50,
-        textAlign: 'center',
-    },
-});
+import styles from '../styles/homeStyles';
 
 const MenuScreen = ({ navigation }) => {
     const globalState = useContext(store);

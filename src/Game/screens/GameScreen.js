@@ -12,25 +12,8 @@ import Coins from '../components/Coins';
 import Lifes from '../components/Lifes';
 import Clock from '../components/Clock';
 import {store} from "../../Shared/providers/appProvider";
+import styles from '../styles/gameStyle';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  wordContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    flex: 0.6
-  },
-  letterContainer: {
-    paddingHorizontal: 5,
-    paddingTop: 40
-  },
-  letter: {
-    fontSize: 40,
-    fontWeight: 'bold',
-  }
-});
 
 const GameScreen = ({ isVersus }) => {
   const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, seconds, getClue } = useContext(GameContext);

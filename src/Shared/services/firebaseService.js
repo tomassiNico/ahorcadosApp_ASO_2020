@@ -8,14 +8,16 @@ class firebaseService {
         this.db = firebase.firestore();
     };
     saveData = async (collection, data) => {
-         return await this.db.collection(collection).add(data);
+        let response = await this.db.collection(collection).add(data);
+        response.docs.map(doc => doc.data());
     };
     getData = async (collection, atributte, operator, value) => {
         let collectionRef = this.db.collection(collection);
         if (atributte) {
            collectionRef = collectionRef.where(atributte, operator , value);
         }
-        return collectionRef.get();
+        let data = await collectionRef.get();
+        return data.docs.map(doc => doc.data());
     };
 
     createVersusGame = async (idDoc, data) => {
