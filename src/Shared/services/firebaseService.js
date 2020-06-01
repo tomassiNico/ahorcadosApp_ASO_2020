@@ -7,10 +7,6 @@ class firebaseService {
         firebase.initializeApp(firebaseConfig);
         this.db = firebase.firestore();
     };
-    saveData = async (collection, data) => {
-        let response = await this.db.collection(collection).add(data);
-        response.docs.map(doc => doc.data());
-    };
     getData = async (collection, atributte, operator, value) => {
         let collectionRef = this.db.collection(collection);
         if (atributte) {
@@ -19,15 +15,17 @@ class firebaseService {
         let data = await collectionRef.get();
         return data.docs.map(doc => doc.data());
     };
+    getDataById = (colleccion, id) => {
+        return this.db.collection(colleccion).doc(id);
+    };
+    saveData = async (collection, data) => {
+        let response = await this.db.collection(collection).add(data);
+        response.docs.map(doc => doc.data());
+    };
+    saveDataWithId = async (collection, idDoc, data) => {
+        return await this.db.collection('games').doc(idDoc).set(data);
+    }
 
-    createVersusGame = async (idDoc, data) => {
-        const game = await this.db.collection('games').doc(idDoc);
-        game.set(data);
-        return game
-    }
-    getGame = async (idGame) => {
-        return await this.db.collection('games').doc(idGame);
-    }
     subscribe = async (collection, filters, dispatchAdded, DispatchModified, DispatchRemoved) => {
         let collectionRef = this.db.collection(collection);
         if (filters && Array.isArray(filters)) {

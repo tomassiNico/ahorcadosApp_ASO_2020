@@ -4,6 +4,8 @@ import singletonFirebaseServices from '../../Shared/services/firebaseService';
 import WordServices from '../../Shared/services/WordServices';
 import {store} from "../../Shared/providers/appProvider";
 import userService from "../repository/userService";
+import Game from "../../Shared/entities/game";
+import gameService from "../repository/gameService";
 
 const VersusScreen = (props) => {
   const [users, setUsers] = useState([]);
@@ -12,7 +14,7 @@ const VersusScreen = (props) => {
 
   useEffect(() => {
     const fetchData = async  () => {
-      let usersData = await userService.fetchUser();
+      let usersData = await userService.fetchUser(globalState.state.username);
       setUsers(usersData);
     }
     fetchData();
@@ -32,7 +34,7 @@ const VersusScreen = (props) => {
               winner: '',
           }
           const idGame = (new Date()).getTime().toString();
-          const game = await singletonFirebaseServices.createVersusGame(idGame, {...gameData, idGame});
+          const game = gameService.createVersusGame(idGame, {...gameData, idGame});
           props.navigation.navigate('Game', { game: game, isVersus: true, word,  username1: globalState.state.username, username2: username })
       }catch(err){
         console.log('Error inesperado', err)

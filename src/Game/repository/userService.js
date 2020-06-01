@@ -1,8 +1,8 @@
 import firebaseService from "../../Shared/services/firebaseService";
 
-const fetchUser = async () => {
+const fetchUser = async (filterCurrentUser) => {
     let dataUser = await firebaseService.getData('users');
-    return dataUser;
+    return dataUser.filter(({username}) => username !== filterCurrentUser);
 };
 
 export default {
