@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import WordServices from '../../Shared/services/WordServices';
+import WordServicesSQlite from '../../Shared/services/wordServiceSQLite';
 import useTimer from '../components/hooks/useTimer';
 
 const getIndexOfLetter = (word, letter) => {
@@ -73,7 +73,7 @@ export const useGameContext = (word) => {
     };
 
     const newGame = async () => {
-        const newWord = word ? word : await WordServices.getWord();
+        const newWord = word ? word : await WordServicesSQlite.getWord();
         setGameState({
             ...initContext,
             word: newWord,
