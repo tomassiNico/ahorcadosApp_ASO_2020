@@ -1,5 +1,5 @@
 import React, { useState,  useEffect, useContext } from 'react';
-import { Platform, StatusBar, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import singletonFirebaseServices from '../repositories/firebaseService';
 import WordServices from '../repositories/WordServices';
 import {store} from "../providers/appProvider";
@@ -42,19 +42,21 @@ const VersusScreen = (props) => {
   
 
   return (
-    <View>
-      <Text>vs mode</Text>
+    <View style={{  marginHorizontal: 8 }}>
+      <Text style={{ fontSize: 24}}>Jugar contra: </Text>
       {users.map(({username})=>{
         return  (
           <TouchableOpacity
           style={{
             alignItems: "center",
             backgroundColor: "#DDDDDD",
-            padding: 10
+            padding: 10,
+            marginHorizontal: 8,
+            marginVertical: 8
           }}
           onPress={() => _onSelectUser(username)}
         >
-          <Text>{username}</Text>
+          <Text >{username}</Text>
         </TouchableOpacity>
         )
       })}
