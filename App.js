@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
@@ -13,6 +13,7 @@ import useLinking from './navigation/useLinking';
 import {AppProvider} from './providers/appProvider';
 import Notifications from './components/Notifications';
 import Logout from "./components/Logout";
+import VersusScreen from './screens/VersusScreen';
 const Stack = createStackNavigator();
 
 export default function App(props) {
@@ -64,11 +65,12 @@ export default function App(props) {
                         headerRight: () => (
                             <View>
                               <Logout navigation={navigation}/>
-                              <Notifications/>
+                              <Notifications navigation={navigation}/>
                             </View>),
                       })}
                   />
                   <Stack.Screen name="Game" component={GameScreenWithContext} />
+                  <Stack.Screen name="VS" component={VersusScreen} />
                 </Stack.Navigator>
               </NavigationContainer>
             </AppProvider>
