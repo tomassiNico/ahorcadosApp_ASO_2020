@@ -6,7 +6,7 @@ const updateWords = async () => {
         'words',
     );
     //Seteo la base de datos en caso de que el usuario entre por primera vez
-    await wordServiceSQLite.setDatabase();
+    await wordServiceSQLite.setDatabase(wordsFirebase);
     //Busco los niveles que estan en la base de datos
     let levels = await wordServiceSQLite.getLevels();
     //Quito todas las palabras de niveles que ya estaban en la base de datos
