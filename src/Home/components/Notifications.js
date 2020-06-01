@@ -3,12 +3,25 @@ import {Badge, Overlay, Button, } from "react-native-elements";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {store} from "../../Shared/providers/appProvider";
 import {Text, View} from "react-native";
-import singletonFirebaseServices from '../../Shared/services/firebaseService';
+import gameService from "../../Game/repository/gameService";
 
 export default (props) => {
     const [isListVisible, setListVisible] =useState(false)
     const globalState = useContext(store);
     const {invitations} = globalState.state;
+    const _acceptGame = async (idGame) => {
+        const game = await gameService.getVersusGame(idGame);
+        game.get().then(doc => {
+            setListVisible(false);
+            props.navigation.navigate('Game', { game: game, isVersus: true, word: doc.data().word,  username1: doc.data().username1, username2: doc.data().username2 })
+        })
+    };
+    const _rejectGame = async (idGame) => {
+        const game = await gameService.getVersusGame(idGame);
+        await game.update({
+            winner: '-'
+        })
+    };
     return (
         <View >
             <Badge
@@ -20,17 +33,12 @@ export default (props) => {
                 <Text>Invitaciones pendientes: </Text>
                 {
                     invitations && invitations.map((invitation, i) => {
+                        const {username1, idGame} = invitation;
                         return (
                         <View>
-                            <Text>{invitation.username1}</Text>
+                            <Text>{username1}</Text>
                             <Button
-                                onPress={async () => {
-                                    const game = await singletonFirebaseServices.getGame(invitation.idGame);
-                                    game.get().then(doc => {
-                                        setListVisible(false);
-                                        props.navigation.navigate('Game', { game: game, isVersus: true, word: doc.data().word,  username1: doc.data().username1, username2: doc.data().username2 })
-                                    })
-                                }}
+                                onPress={() => _acceptGame(idGame)}
                                 icon={
                                     <Icon
                                         name="check-circle"
@@ -40,12 +48,7 @@ export default (props) => {
                                 }
                             />
                             <Button
-                                onPress={async () => {
-                                    const game = await singletonFirebaseServices.getGame(invitation.idGame);
-                                    game.update({
-                                        winner: '-'
-                                    })
-                                }}
+                                onPress={() => _rejectGame(idGame)}
                                 icon={
                                     <Icon
                                         name="window-close"
