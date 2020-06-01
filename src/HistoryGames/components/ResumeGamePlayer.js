@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 const ResumeGamePlayer = ({ username, time, finalState, winner }) => {
   const labelTime = time ? `Duración: ${time}s` : `En curso`;
-  let state = finalState ? `Completo la palabra` : `Perdio`;
+  let state = finalState === "win" ? `Completo la palabra` : `Perdio`;
 
   if(!finalState){
     state = ''
