@@ -35,7 +35,7 @@ class firebaseService {
     };
     updateData = async (collection, idDoc, data) => {
         //Metodo que permite actualizar algunas propiedades de un documento aprticular
-        return await this.db.collection('games').doc(idDoc).update(data);
+        return await this.db.collection(collection).doc(idDoc).update(data);
     };
     subscribe = async (collection, filters, dispatchAdded, DispatchModified, DispatchRemoved) => {
         let collectionRef = this.db.collection(collection);

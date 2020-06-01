@@ -69,25 +69,8 @@ const GameScreen = ({ isVersus }) => {
   )
 }
 
-const getWinner = (game) => {
-  const {state1, state2, time1, time2, username1, username2 } =  game;
-  let winner;
-  if(state1 === state2 && time1 === time2){
-    return "empate"
-  }
-
-  if(state2 !== state1){
-    winner = state1 === "win" ? username1 : username2;
-  }else if(state1 === "lose" && state1 === "lose"){
-    winner = "empate";
-  }else {
-    winner = time1 < time2 ? username1 : username2;
-  }
-  return winner
-}
-
-export const GameScreenWithContext = ({ navigation, route }) => {
-  let { game, isVersus, word, username1, username2 } = route.params ? route.params : {};
+export const GameScreenWithContext = ({ route }) => {
+  let { game, isVersus, word, username1 } = route.params ? route.params : {};
   const stateContext = useGameContext(word);
   const globalState = useContext(store);
 
@@ -106,13 +89,6 @@ export const GameScreenWithContext = ({ navigation, route }) => {
         updatedData = {
           state2: stateContext.win ? 'win' : 'lose',
           time2: stateContext.seconds,
-        }
-      }
-      if (game.state1 || game.state2) {
-        let winner = getWinner({...game, ...updatedData});
-        updatedData = {
-          ...updatedData,
-          winner
         }
       }
       updateGame(game.idGame, updatedData);

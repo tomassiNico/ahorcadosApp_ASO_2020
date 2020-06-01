@@ -1,12 +1,15 @@
 import React, {createContext, useReducer} from 'react';
 
-const initialState = {};
+const initialState = {
+    username: null,
+    games: []
+};
 const store = createContext(initialState);
 const { Provider } = store;
 
 const AppProvider = ( { children } ) => {
     const [state, dispatch] = useReducer((state, {type , data}) => {
-        let games = [];
+        let games = [...state.games]
         switch(type) {
             case 'LOGIN':
                 return {
@@ -14,20 +17,15 @@ const AppProvider = ( { children } ) => {
                     username: data
                 };
             case 'LOGOUT':
-                return {};
+                return initialState;
             case 'SAVE_GAME':
-                if (state.invitations) {
-                    games = state.games
-                }
                 games.push(data);
                 return {
                     ...state,
                     games
                 };
             case 'UPDATE_GAME':
-                if (state.invitations) {
-                    games = state.games.filter(invitation => invitation.idGame !== data.idGame)
-                }
+                games = state.games.filter(invitation => invitation.idGame !== data.idGame)
                 games.push(data);
                 return {
                     ...state,

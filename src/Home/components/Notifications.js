@@ -8,16 +8,16 @@ import gameService from "../../Game/repository/gameService";
 export default (props) => {
     const [isListVisible, setListVisible] =useState(false)
     const globalState = useContext(store);
-    const {games} = globalState.state;
-    const invitations = games && Array.isArray(games) ? games.filter(game => game.winner === ''): [];
+    const {games, username} = globalState.state;
+    const invitations = games && Array.isArray(games) ? games.filter(game => (game.winner === '' && game.username2 === username)): [];
     const _acceptGame = async (idGame) => {
         const game = await gameService.getVersusGame(idGame);
         setListVisible(false);
         const {word, username1, username2} = game;
         props.navigation.navigate('Game', { game: game, isVersus: true, word,  username1, username2})
     };
-    const _rejectGame = async (idGame) => {
-        await gameService.updateVersusGame(idGame, {winner: '-'})
+    const _rejectGame = async (idGame, oponent) => {
+        await gameService.updateVersusGame(idGame, {winner: oponent, time2: '0'})
     };
     return (
         <View >
@@ -45,7 +45,7 @@ export default (props) => {
                                 }
                             />
                             <Button
-                                onPress={() => _rejectGame(idGame)}
+                                onPress={() => _rejectGame(idGame, username1)}
                                 icon={
                                     <Icon
                                         name="window-close"
