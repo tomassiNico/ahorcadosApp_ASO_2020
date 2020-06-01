@@ -1,18 +1,18 @@
 import React, { useState,  useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import singletonFirebaseServices from '../repositories/firebaseService';
-import WordServices from '../repositories/WordServices';
-import {store} from "../providers/appProvider";
+import WordServices from '../../Shared/services/WordServices';
+import {store} from "../../Shared/providers/appProvider";
+import userService from "../repository/userService";
+import gameService from "../repository/gameService";
 
 const VersusScreen = (props) => {
   const [users, setUsers] = useState([]);
   const globalState = useContext(store);
 
-  
+
   useEffect(() => {
     const fetchData = async  () => {
-      let usersData  = await singletonFirebaseServices.fetchUsers();
-      usersData.filter(({username}) => username !== globalState.state.username);
+      let usersData = await userService.fetchUser(globalState.state.username);
       setUsers(usersData);
     }
     fetchData();
@@ -32,14 +32,14 @@ const VersusScreen = (props) => {
               winner: '',
           }
           const idGame = (new Date()).getTime().toString();
-          const game = await singletonFirebaseServices.createVersusGame(idGame, {...gameData, idGame});
+          const game = gameService.createVersusGame(idGame, {...gameData, idGame});
           props.navigation.navigate('Game', { game: game, isVersus: true, word,  username1: globalState.state.username, username2: username })
       }catch(err){
         console.log('Error inesperado', err)
       }
   }
 
-  
+
 
   return (
     <View style={{  marginHorizontal: 8 }}>

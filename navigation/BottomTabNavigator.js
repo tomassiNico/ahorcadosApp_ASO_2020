@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
-import TabBarIcon from '../components/TabBarIcon';
-import { GameScreenWithContext } from '../screens/GameScreen';
-import { MenuScreenWithContext } from '../screens/MenuScreen';
+import TabBarIcon from '../src/Game/components/TabBarIcon';
+import { GameScreenWithContext } from '../src/Game/screens/GameScreen';
+import { MenuScreenWithContext } from '../src/Home/screen/MenuScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Game';

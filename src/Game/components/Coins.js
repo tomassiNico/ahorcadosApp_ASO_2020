@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Image, Text } from 'react-native';
 
-const Lifes = ({ lifes }) => (
+const Coins = ({ coins }) => (
     <View style={{alignItems: 'center', padding: 8}} >
         <Image
         style={{ height: 30, width: 30 }}
-        source={require('../assets/images/heart.png')}
+        source={require('../../../assets/images/coin.png')}
         />
-        <Text style={{fontSize: 20}}>{lifes}</Text>
+        <Text style={{fontSize: 20}}>{coins}</Text>
     </View>
 )
 
-export default Lifes
+export default Coins

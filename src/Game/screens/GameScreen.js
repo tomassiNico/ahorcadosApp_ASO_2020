@@ -2,35 +2,18 @@ import React, { useContext, useEffect } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   Button
 } from 'react-native';
-import { GameContext } from '../controllers/GameController';
-import { useGameContext } from '../controllers/useGameContext';
+import { GameContext } from '../context/GameController';
+import { useGameContext } from '../context/useGameContext';
 import { Keyboard } from '../components/Keyboard';
 import Coins from '../components/Coins';
 import Lifes from '../components/Lifes';
 import Clock from '../components/Clock';
-import {store} from "../providers/appProvider";
+import {store} from "../../Shared/providers/appProvider";
+import styles from '../styles/gameStyle';
+import gameService from "../repository/gameService";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  wordContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    flex: 0.6
-  },
-  letterContainer: {
-    paddingHorizontal: 5,
-    paddingTop: 40
-  },
-  letter: {
-    fontSize: 40,
-    fontWeight: 'bold',
-  }
-});
 
 const GameScreen = ({ isVersus }) => {
   const { win, gameOver, stateGameWord, life, letterIntents, play, newGame, word, coins, seconds, getClue } = useContext(GameContext);
@@ -107,8 +90,11 @@ export const GameScreenWithContext = ({ navigation, route }) => {
   let { game, isVersus, word, username1, username2 } = route.params ? route.params : {};
   const stateContext = useGameContext(word);
   const globalState = useContext(store);
-  
+
   useEffect(() => {
+    const updateGame = async (idGame, data) => {
+      await gameService.updateVersusGame(idGame, data);
+    };
     if(isVersus && (stateContext.win || stateContext.gameOver)){
       let updatedData = {}
       if(username1 === globalState.state.username){
@@ -122,17 +108,14 @@ export const GameScreenWithContext = ({ navigation, route }) => {
           time2: stateContext.seconds,
         }
       }
-      game.get().then((doc) => {
-        const gameData = doc.data();
-        if(gameData.state1 || gameData.state2){
-          let winner = getWinner({...gameData, ...updatedData});
-          updatedData = {
-            ...updatedData,
-            winner
-          }
+      if (game.state1 || game.state2) {
+        let winner = getWinner({...game, ...updatedData});
+        updatedData = {
+          ...updatedData,
+          winner
         }
-        game.update(updatedData)
-      })
+      }
+      updateGame(game.idGame, updatedData);
     }
   }, [stateContext.win, stateContext.gameOver])
 

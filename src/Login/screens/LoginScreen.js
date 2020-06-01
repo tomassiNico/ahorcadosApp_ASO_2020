@@ -1,27 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext,  useState } from 'react';
 import {
     View,
     Text,
-    StyleSheet,
     Button,
     TextInput
 } from 'react-native';
-import loginService from '../repositories/loginService';
-import {store} from '../providers/appProvider';
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    buttonContainer: {
-        flex: 0.4,
-        justifyContent: 'space-around'
-    },
-    title: {
-        flex: 0.2,
-        fontSize: 30,
-        textAlign: 'center',
-    },
-});
+import loginService from '../repository/loginService';
+import {store} from '../../Shared/providers/appProvider';
+import styles from '../styles/loginStyle';
 
 const LoginScreen = ({ navigation }) => {
     const globalState = useContext(store);

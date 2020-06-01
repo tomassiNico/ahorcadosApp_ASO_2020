@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import words from "../helper/words";
+import words from "../../../helper/words";
 const db = SQLite.openDatabase("Ahorcados.db");
 
 class WordServices {
