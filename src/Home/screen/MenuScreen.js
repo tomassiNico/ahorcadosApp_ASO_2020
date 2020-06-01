@@ -14,6 +14,7 @@ const MenuScreen = ({ navigation }) => {
     const { dispatch } = globalState;
     useEffect(() => {
         invitationsService.subscribeInvitations(globalState.state.username, dispatch);
+        invitationsService.subscribeGames(globalState.state.username, dispatch);
     }, []);
     return (
         <View style={styles.container}>
@@ -29,6 +30,11 @@ const MenuScreen = ({ navigation }) => {
                     style={styles.button}
                     title="Jugar contra un oponente"
                     onPress={() => navigation.navigate('VS')}
+                />
+                <Button
+                    style={styles.button}
+                    title="Historial de partidas"
+                    onPress={() => navigation.navigate('HistoryVersus')}
                 />
             </View>
         </View>

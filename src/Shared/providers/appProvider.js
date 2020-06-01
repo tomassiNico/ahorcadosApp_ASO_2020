@@ -16,7 +16,7 @@ const AppProvider = ( { children } ) => {
             case 'LOGOUT':
                 return {};
             case 'SAVE_GAME':
-                if (state.invitations) {
+                if (state.games) {
                     games = state.games
                 }
                 games.push(data);
