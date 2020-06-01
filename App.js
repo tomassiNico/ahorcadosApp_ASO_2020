@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, Text } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,6 +14,7 @@ import {AppProvider, store} from './src/Shared/providers/appProvider';
 import Notifications from './src/Home/components/Notifications';
 import Logout from "./src/Home/components/Logout";
 import VersusScreen from './src/Game/screens/VersusScreen';
+import HistoryGames from './src/HistoryGames/screens/HistoryGames';
 const Stack = createStackNavigator();
 
 const Navigator = (props) => {
@@ -56,7 +57,7 @@ const Navigator = (props) => {
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
               <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-                <Stack.Navigator initialRouteName={"MenuScreen"}>
+                <Stack.Navigator initialRouteName={"Menu"}>
                 {!globalData.state.username ? (
                   <Stack.Screen name="Login" component={LoginScreen} />
                 ) : (
@@ -74,6 +75,7 @@ const Navigator = (props) => {
                   />
                   <Stack.Screen name="Game" component={GameScreenWithContext} />
                   <Stack.Screen name="VS" component={VersusScreen} />
+                  <Stack.Screen name="HistoryVersus" component={HistoryGames} />
                   </>
                 )}
                 </Stack.Navigator>
