@@ -1,6 +1,6 @@
 import React, { useState,  useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import WordServices from '../../Shared/services/WordServices';
+import WordServices from '../../Shared/services/wordServiceSQLite';
 import {store} from "../../Shared/providers/appProvider";
 import userService from "../repository/userService";
 import gameService from "../repository/gameService";

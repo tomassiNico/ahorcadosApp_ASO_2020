@@ -8,12 +8,14 @@ import 'firebase/firestore';
 import {store} from "../../Shared/providers/appProvider";
 import invitationsService from "../repository/invitationsService";
 import styles from '../styles/homeStyles';
+import wordsService from "../repository/wordsService";
 
 const MenuScreen = ({ navigation }) => {
     const globalState = useContext(store);
     const { dispatch } = globalState;
     useEffect(() => {
         invitationsService.subscribeInvitations(globalState.state.username, dispatch);
+        wordsService.updateWords();
     }, []);
     return (
         <View style={styles.container}>
