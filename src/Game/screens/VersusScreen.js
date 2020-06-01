@@ -18,7 +18,7 @@ const VersusScreen = (props) => {
     fetchData();
   },[])
 
-  _onSelectUser = async (username) => {
+  const _onSelectUser = async (username) => {
       try{
           const word = await WordServices.getWord();
           const gameData = {
@@ -54,6 +54,7 @@ const VersusScreen = (props) => {
             marginHorizontal: 8,
             marginVertical: 8
           }}
+          key={username}
           onPress={() => _onSelectUser(username)}
         >
           <Text >{username}</Text>

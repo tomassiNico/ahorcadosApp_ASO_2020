@@ -9,7 +9,7 @@ import loginService from '../repository/loginService';
 import {store} from '../../Shared/providers/appProvider';
 import styles from '../styles/loginStyle';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
     const globalState = useContext(store);
     const { dispatch } = globalState;
     const [username, setUsername] = useState('');
@@ -19,7 +19,6 @@ const LoginScreen = ({ navigation }) => {
             const dataUser = await loginService.login(username);
             if (dataUser) {
                 dispatch({ type: 'LOGIN', data: dataUser.username });
-                navigation.navigate('Menu')
             }
         }
     };
